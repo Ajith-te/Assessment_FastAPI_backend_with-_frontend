@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Uploader</title>
+</head>
+<body>
+    <h1>CSV Uploader</h1>
+           <form action="/upload" method="post" enctype="multipart/form-data">
+           <label for="name">Name:</label><br>
+           <input type="text" name="name" required><br>
+           <label for="age">Age:</label>
+           <input type="number" name="age" required><br>
+           <input type="file" name="csv_file" id="csv_file" accept=".csv" required><br>
+           <button type="submit">Submit</button>
+</form>
+
+    <script>
+        const csvFileInput = document.getElementById("csv_file");
+        const reader = new FileReader();
+        let csvHeaders = [];
+
+        csvFileInput.addEventListener("change", (e) => {
+            const fileList = e.target.files;
+            const file = fileList[0];
+            reader.readAsText(file);
+        });
+
+        reader.addEventListener("load", (e) => {
+            const result = e.target.result;
+            csvHeaders = result.split(/\r?\n/)[0].split(/,/);
+
+            console.log(csvHeaders);
+        });
+    </script>
+</body>
+</html>
